@@ -17,7 +17,7 @@ export default function ForgotPassword() {
         <View style={styles.container}>
             
             <TextInput
-                style={styles.input}
+                style={[styles.input, styles.BoxShadow, styles.androidShadow]}
                 placeholder="Enter your email"
                 placeholderTextColor="#B7B7B7"
                 value={username}
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: 50,
+        paddingHorizontal: 30,
         backgroundColor:"white"
     },
     title: {
@@ -47,19 +47,33 @@ const styles = StyleSheet.create({
     },
     input: {
         width:"100%",
-        height: "5%",
+        height: "8%",
+        backgroundColor:"#ffffff",
+        paddingHorizontal: 10,
+        marginBottom: 20,
+        paddingLeft:10,
         textAlign:"left",
-        borderBottomWidth:1,
-        borderBlockEndColor:"#373A40",
-        marginBottom: 15,
+        borderRadius:15,
+    },
+    BoxShadow:{
+        shadowColor:"black",
+        shadowOffset:{
+            width:2,
+            height:2
+        },
+        shadowOpacity:0.8,
+        shadowRadius:5
+    },
+    androidShadow:{
+        elevation:10
     },
     button:{
         width:"100%",
-        height:"7%",
+        height:"8%",
         backgroundColor:"#CC2B52",
         alignItems:"center",
         justifyContent:"center",
-        borderRadius:5,
+        borderRadius:15,
     },
     buttonText:{
         fontSize:15,

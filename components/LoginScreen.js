@@ -43,14 +43,14 @@ export default function LoginScreen({navigation}){
            
             <View style={styles.itemContainer}>
                 
-                <TextInput style={styles.inputBox}
+                <TextInput style={[styles.inputBox,styles.BoxShadow,styles.androidShadow]}
                 placeholder="Username" 
                 placeholderTextColor="#B7B7B7"
                 value={username}
                 onChangeText={setUsername}
                 keyboardType="email-address"/>
 
-                <TextInput style={styles.inputBox}
+                <TextInput style={[styles.inputBox,styles.BoxShadow,styles.androidShadow]}
                 placeholder="Password"
                 placeholderTextColor="#B7B7B7"
                 value={password}
@@ -61,7 +61,7 @@ export default function LoginScreen({navigation}){
                     <Text style={styles.buttonText}>LOGIN</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.link} onPress={() => navigation.navigate('Forgot-Password')}>Forgot Password?</Text>
+                <Text style={styles.link} onPress={() => navigation.navigate('Forgot-Password')}>Forgot your password?</Text>
             </View>  
         </View>
     )
@@ -72,19 +72,30 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: 'white',
       justifyContent:"center",
-      paddingHorizontal: 50
+      paddingHorizontal: 30
       
     },
     inputBox:{
         width:"100%",
-        height: "10%",
+        height: "15%",
         backgroundColor:"#ffffff",
         paddingHorizontal: 10,
         marginBottom: 20,
-        paddingLeft:0,
+        paddingLeft:10,
         textAlign:"left",
-        borderBottomWidth:1,
-        borderBlockEndColor:"#373A40",
+        borderRadius:15,
+    },
+        BoxShadow:{
+        shadowColor:"black",
+        shadowOffset:{
+            width:10,
+            height:6
+        },
+        shadowOpacity:0.8,
+        shadowRadius:5
+    },
+    androidShadow:{
+        elevation:10
     },
     button:{
         width:"100%",
@@ -92,7 +103,7 @@ const styles = StyleSheet.create({
         backgroundColor:"#CC2B52",
         alignItems:"center",
         justifyContent:"center",
-        borderRadius:5,
+        borderRadius:15,
     },
     link: {
         marginTop: 10,
