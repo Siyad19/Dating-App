@@ -1,17 +1,36 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, Alert } from 'react-native';
 
-export default function ForgotPassword() {
-    const [username, setUsername] = useState('');
+export default function ForgotPassword({navigation}) {
+    const [email, setEmail] = useState('');
 
-    const handleReset = () => {
+    const handleReset = async () => {
          Keyboard.dismiss()
         const verify = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!verify.test(username)) {
+        if (!verify.test(email)) {
             Alert.alert('Invalid Email', 'Please enter a valid email address');
             return;
         }
-        Alert.alert('Reset link sent to email');
+        try {
+            const response = await axios.post('https://71d8-2409-40f2-2a-b687-b8d7-9ee7-31c0-a18c.ngrok-free.app/user/forget-password',{
+                email,
+            },{
+                headers:{
+                    'Content-Type' : 'application/json',
+                },
+            });
+            if (response.data.status === 'success') {
+                Alert.alert('Success', response.data.message);
+                navigation.navigate('Reset-Password');
+                
+              } else {
+                Alert.alert('Error', response.data.message);
+              }
+        }
+        catch (error) {
+            Alert.alert('Error', error.response?.data?.message || 'An error occurred');
+        }
     }
     return (
         <View style={styles.container}>
@@ -20,8 +39,8 @@ export default function ForgotPassword() {
                 style={[styles.input, styles.BoxShadow, styles.androidShadow]}
                 placeholder="Enter your email"
                 placeholderTextColor="#B7B7B7"
-                value={username}
-                onChangeText={setUsername}
+                value={email}
+                onChangeText={setEmail}
                 keyboardType="email-address"
             />
             <TouchableOpacity style={styles.button} onPress={handleReset}>
