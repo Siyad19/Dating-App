@@ -77,11 +77,11 @@ const styles = StyleSheet.create({
     BoxShadow:{
         shadowColor:"black",
         shadowOffset:{
-            width:2,
-            height:2
+            width:6,
+            height:6
         },
-        shadowOpacity:0.8,
-        shadowRadius:5
+        shadowOpacity:0.3,
+        shadowRadius:8
     },
     androidShadow:{
         elevation:10
