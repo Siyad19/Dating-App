@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Keyboard } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Keyboard, StatusBar} from "react-native";
 import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
@@ -8,7 +8,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     Keyboard.dismiss();
-    
+
     const verify = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!verify.test(username)) {
       Alert.alert('Invalid Email', 'Please enter a valid email address');
@@ -21,7 +21,7 @@ export default function LoginScreen({ navigation }) {
 
     try {
       const response = await axios.post('https://71d8-2409-40f2-2a-b687-b8d7-9ee7-31c0-a18c.ngrok-free.app/user/signin', {
-        email: username, 
+        email: username,
         password,
       });
 
@@ -29,13 +29,13 @@ export default function LoginScreen({ navigation }) {
 
       if (data.status === 'ok') {
         Alert.alert('Login Successful', data.message);
-        
+
       } else {
         Alert.alert('Login Failed', data.message || 'Invalid credentials. Please try again.');
       }
     } catch (error) {
       if (error.response) {
-        Alert.alert('Login Error','wrong Email address');
+        Alert.alert('Login Error', 'wrong Email address');
       } else if (error.request) {
         Alert.alert('Network Error', 'No response from server. Please check your connection.');
       } else {
@@ -46,16 +46,21 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.itemContainer}>
+      <StatusBar/>
+      <View style={styles.headerText}>
+        <Text style={styles.headerText1}>Login Here</Text>
+        <Text style={styles.headerText2}>Welcome back you've</Text>
+        <Text style={styles.headerText2}>been missed!</Text>
+      </View>
         <TextInput
           style={[styles.inputBox, styles.BoxShadow, styles.androidShadow]}
-          placeholder="Username"
+          placeholder="Email"
           placeholderTextColor="#B7B7B7"
           value={username}
           onChangeText={setUsername}
           keyboardType="email-address"
         />
-        
+
         <TextInput
           style={[styles.inputBox, styles.BoxShadow, styles.androidShadow]}
           placeholder="Password"
@@ -65,14 +70,19 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry
         />
 
+        <Text style={styles.link} onPress={() => navigation.navigate('Forgot-Password')}>
+          Forgot your password?
+        </Text>
+
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
 
-        <Text style={styles.link} onPress={() => navigation.navigate('Forgot-Password')}>
-          Forgot your password?
-        </Text>
-      </View>
+        <TouchableOpacity style={styles.footerStyle}>
+          <Text style={styles.footerText}>Create new account</Text>
+        </TouchableOpacity>
+
+      
     </View>
   );
 }
@@ -81,18 +91,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: "center",
     paddingHorizontal: 30,
+  },
+  headerText: {
+    alignItems: "center",
+    padding:30,
+    marginTop:150,
+    marginBottom:50,
+  },
+  headerText1: {
+    fontWeight: "bold",
+    fontSize: 28,
+    color: "#CC2B52",
+    padding: 10
+  },
+  headerText2: {
+    fontSize: 18,
+    fontWeight:'400'
   },
   inputBox: {
     width: "100%",
-    height: "15%",
+    height: "7%",
     backgroundColor: "#ffffff",
     paddingHorizontal: 10,
     marginBottom: 20,
-    paddingLeft: 10,
+    paddingLeft: 20,
     textAlign: "left",
     borderRadius: 15,
+    borderColor: "#CC2B52",
+    borderWidth: 1
   },
   BoxShadow: {
     shadowColor: "black",
@@ -108,20 +135,29 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    height: "16%",
+    height: "7%",
     backgroundColor: "#CC2B52",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 15,
   },
   link: {
-    marginTop: 10,
+    marginBottom:15,
     color: 'blue',
-    textAlign: 'center',
+    textAlign: 'right',
+    fontWeight:"300"
   },
   buttonText: {
     fontSize: 15,
     fontWeight: "bold",
     color: "white",
+  },
+  footerStyle:{
+    alignItems:'center',
+    marginTop:50
+  },
+  footerText:{
+    fontWeight:"500",
+    fontSize:15
   },
 });

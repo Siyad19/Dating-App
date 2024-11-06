@@ -2,39 +2,43 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, Alert } from 'react-native';
 
-export default function ForgotPassword({navigation}) {
+export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = useState('');
 
     const handleReset = async () => {
-         Keyboard.dismiss()
+        Keyboard.dismiss()
         const verify = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!verify.test(email)) {
             Alert.alert('Invalid Email', 'Please enter a valid email address');
             return;
         }
         try {
-            const response = await axios.post('https://71d8-2409-40f2-2a-b687-b8d7-9ee7-31c0-a18c.ngrok-free.app/user/forget-password',{
+            const response = await axios.post('https://71d8-2409-40f2-2a-b687-b8d7-9ee7-31c0-a18c.ngrok-free.app/user/forget-password', {
                 email,
-            },{
-                headers:{
-                    'Content-Type' : 'application/json',
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
                 },
             });
             if (response.data.status === 'success') {
                 Alert.alert('Success', response.data.message);
                 navigation.navigate('Reset-Password');
-                
-              } else {
+
+            } else {
                 Alert.alert('Error', response.data.message);
-              }
+            }
         }
         catch (error) {
-            Alert.alert('Error', error.response?.data?.message || 'An error occurred');
+            Alert.alert('Error', error.response?.data?.message || 'Something went wrong!');
         }
     }
     return (
         <View style={styles.container}>
-            
+            <View style={styles.headerText}>
+                <Text style={styles.headerText1}>Forgot password?</Text>
+                <Text style={styles.headerText2}>We'll send you reset instructions.</Text>
+            </View>
+
             <TextInput
                 style={[styles.input, styles.BoxShadow, styles.androidShadow]}
                 placeholder="Enter your email"
@@ -44,8 +48,9 @@ export default function ForgotPassword({navigation}) {
                 keyboardType="email-address"
             />
             <TouchableOpacity style={styles.button} onPress={handleReset}>
-                 <Text style={styles.buttonText}>Reset Password</Text>
+                <Text style={styles.buttonText}>Reset Password</Text>
             </TouchableOpacity>
+
         </View>
     );
 }
@@ -53,50 +58,60 @@ export default function ForgotPassword({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        backgroundColor: "white",
         paddingHorizontal: 30,
-        backgroundColor:"white"
     },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: 'center',
-        fontWeight:"bold",
-        color:"#CC2B52"
+    headerText: {
+        alignItems: "center",
+        padding:20,
+        marginTop:160
+    },
+    headerText1: {
+        fontWeight: "bold",
+        fontSize: 28,
+        color: "#CC2B52",
+        padding: 10
+    },
+    headerText2: {
+        fontSize: 18,
+        fontWeight: '400'
     },
     input: {
-        width:"100%",
-        height: "8%",
-        backgroundColor:"#ffffff",
+        width: "100%",
+        height: "7%",
+        backgroundColor: "#ffffff",
         paddingHorizontal: 10,
         marginBottom: 20,
-        paddingLeft:10,
-        textAlign:"left",
-        borderRadius:15,
+        marginTop:150,
+        paddingLeft: 15,
+        textAlign: "left",
+        borderRadius: 15,
+        borderColor: "#CC2B52",
+        borderWidth: 1
     },
-    BoxShadow:{
-        shadowColor:"black",
-        shadowOffset:{
-            width:6,
-            height:6
+    BoxShadow: {
+        shadowColor: "black",
+        shadowOffset: {
+            width: 6,
+            height: 6
         },
-        shadowOpacity:0.3,
-        shadowRadius:8
+        shadowOpacity: 0.3,
+        shadowRadius: 8
     },
-    androidShadow:{
-        elevation:10
+    androidShadow: {
+        elevation: 10
     },
-    button:{
-        width:"100%",
-        height:"8%",
-        backgroundColor:"#CC2B52",
-        alignItems:"center",
-        justifyContent:"center",
-        borderRadius:15,
+    button: {
+        width: "100%",
+        height: "7%",
+        backgroundColor: "#CC2B52",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 15,
     },
-    buttonText:{
-        fontSize:15,
-        fontWeight:"bold",
-        color:"white"
+    buttonText: {
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "white"
     },
 });
