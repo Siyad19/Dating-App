@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "reac
 import { useState } from "react";
 import axios from "axios";
 
-export default function ResetPassword() {
+export default function ResetPassword({navigation}) {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
@@ -24,7 +24,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await axios.post('https://71d8-2409-40f2-2a-b687-b8d7-9ee7-31c0-a18c.ngrok-free.app/user/forget-password', {
+      const response = await axios.post('https://141a-2401-4900-4120-8014-31d7-fbe6-a0d3-3d35.ngrok-free.app/user/forget-password', {
         token,
         password,
       }, {
@@ -33,15 +33,25 @@ export default function ResetPassword() {
         },
       });
 
-      if (response.data.message === 'Update Successful') {
-        Alert.alert('Success', 'Password reset successful!');
+      if (response.data.error === 'Invalid token') {
+        Alert.alert('The token is invalid or expired');
+        return;
+      }
+
+      if (response.data.success) {
+        Alert.alert('Password reset successfully');
+        navigation.navigate = ('Sign-In')
 
       } else {
-        Alert.alert('Error', response.data.message);
+        Alert.alert('Error resetting password', response.data.message || 'Please try again');
       }
+      
     } catch (error) {
-      Alert.alert('Error', error.response?.data?.message || 'Something went wrong!');
+      console.error('Error:', error);
+      Alert.alert('Something went wrong', 'Please check your internet connection and try again');
     }
+    console.log('API Response:', response);
+
   }
   return (
     <View style={styles.Container}>

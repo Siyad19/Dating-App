@@ -13,7 +13,7 @@ export default function ForgotPassword({ navigation }) {
             return;
         }
         try {
-            const response = await axios.post('https://71d8-2409-40f2-2a-b687-b8d7-9ee7-31c0-a18c.ngrok-free.app/user/forget-password', {
+            const response = await axios.post('https://141a-2401-4900-4120-8014-31d7-fbe6-a0d3-3d35.ngrok-free.app/user/forget-password', {
                 email,
             }, {
                 headers: {
